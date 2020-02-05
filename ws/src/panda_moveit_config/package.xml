@@ -20,11 +20,14 @@ source
   <build_depend>std_msgs</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>message_generation</build_depend>
 
   <run_depend>leap_motion</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
   <run_depend>franka_description</run_depend>
   <run_depend>moveit_ros_move_group</run_depend>
   <run_depend>moveit_fake_controller_manager</run_depend>
@@ -35,6 +38,8 @@ source
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>xacro</run_depend>
   <run_depend>topic_tools</run_depend>
+  <run_depend>message_runtime</run_depend>
+
   <!-- This package is referenced in the warehouse launch files, but does not build out of the box at the moment.
        Commented the dependency until this works. -->
   <!-- <run_depend>warehouse_ros_mongo</run_depend> -->
