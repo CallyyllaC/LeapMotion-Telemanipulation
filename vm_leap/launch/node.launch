@@ -1,0 +1,4 @@
+<launch>
+  <!-- launch vmleap node -->
+  <node name="vm_leap" pkg="vm_leap" type="vmleap" respawn="true" output="screen"/>
+</launch>
