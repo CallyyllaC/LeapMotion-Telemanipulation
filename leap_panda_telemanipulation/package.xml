@@ -1,0 +1,36 @@
+<package>
+  <name>leap_panda_telemanipulation</name>
+  <version>0.3.1</version>
+  <description>The leap_panda_telemanipulation package</description>
+  <maintainer email="cgainsborough@hotmail.com">Callum-DG</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>franka_description</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>leap_motion</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <run_depend>leap_motion</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>franka_description</run_depend>
+  <run_depend>moveit_ros_move_group</run_depend>
+  <run_depend>moveit_fake_controller_manager</run_depend>
+  <run_depend>moveit_kinematics</run_depend>
+  <run_depend>moveit_planners_ompl</run_depend>
+  <run_depend>moveit_ros_visualization</run_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>xacro</run_depend>
+  <run_depend>topic_tools</run_depend>
+  <run_depend>message_runtime</run_depend>
+
+</package>
