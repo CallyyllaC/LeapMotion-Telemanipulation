@@ -12,6 +12,7 @@ Using multiple Leap Motions through a virtual machine is optional, and a seperat
 </li>
 <li>Install leap motion for ros</li>
 <li>Install moveit for ros including panda_moveit_config</li>
+<li>Install tkinter for python</li>
 <li>Copy over leap_panda_telemanipulation into your catkin workspace src folder</li>
 </ol>
 
@@ -28,6 +29,7 @@ Using multiple Leap Motions through a virtual machine is optional, and a seperat
 </li>
 <li>Install leap motion for ros</li>
 <li>Install moveit for ros including panda_moveit_config</li>
+<li>Install tkinter for python</li>
 <li>Copy over leap_panda_telemanipulation and vm_leap into your catkin workspace src folder</li>
 <li>Download your prefered virtual machine software and set up an os, I used vmware player running ubuntu 18lts</li>
 <li>Complete steps 1 to 4 again on your new virtual machine</li>
