@@ -32,6 +32,9 @@ private:
     output.left_orientation = {handLeft.roll, handLeft.pitch, handLeft.yaw};
     output.right_orientation = {handRight.roll, handRight.pitch, handRight.yaw};
 
+    output.grab = handLeft.grab_strength;
+    output.pinch = handRight.pinch_strength;
+    
     publisher.publish(output);
   }
 

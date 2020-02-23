@@ -72,6 +72,9 @@ private:
     output.left_orientation = {comparison(handLeft1.roll, handLeft2.roll, handLeft1.confidence, handLeft2.confidence), comparison(handLeft1.pitch, handLeft2.pitch, handLeft1.confidence, handLeft2.confidence), comparison(handLeft1.yaw, handLeft2.yaw, handLeft1.confidence, handLeft2.confidence)};
     output.right_orientation = {comparison(handRight1.roll, handRight2.roll, handRight1.confidence, handRight2.confidence), comparison(handRight1.pitch, handRight2.pitch, handRight1.confidence, handRight2.confidence), comparison(handRight1.yaw, handRight2.yaw, handRight1.confidence, handRight2.confidence)};
 
+    output.grab = comparison(handLeft1.grab_strength, handLeft2.grab_strength, handLeft1.confidence, handLeft2.confidence);
+    output.pinch = comparison(handRight1.pinch_strength, handRight2.pinch_strength, handLeft1.confidence, handLeft2.confidence);
+
     publisher.publish(output);
   }
 
@@ -91,6 +94,9 @@ private:
     //Get the roll, pitch and yaw of both hands in radians
     output.left_orientation = {handLeft1.roll, handLeft1.pitch, handLeft1.yaw};
     output.right_orientation = {handRight1.roll, handRight1.pitch, handRight1.yaw};
+
+    output.grab = handLeft1.grab_strength;
+    output.pinch = handRight1.pinch_strength;
 
     publisher.publish(output);
   }
@@ -124,7 +130,7 @@ public:
     if (DualLeaps)
     {
       subscriber2 = node.subscribe("/vm_leap", 1, &LeapToPanda::Leap_filteredCallback2, this);
-      timer2 = node.createTimer(ros::Duration(1), &LeapToPanda::dual_leap_publish, this);
+      timer2 = node.createTimer(ros::Duration(0.1), &LeapToPanda::dual_leap_publish, this);
     }
     else
     {
