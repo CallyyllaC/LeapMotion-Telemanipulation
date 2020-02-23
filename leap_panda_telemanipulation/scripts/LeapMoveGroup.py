@@ -7,13 +7,16 @@ import geometry_msgs.msg
 from leap_panda_telemanipulation.msg import Modified_leap
 from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
+import Tkinter
+from Tkinter import *
+import math
 
 def all_close(goal, actual, tolerance):
   all_equal = True
 
   if type(goal) is geometry_msgs.msg.Pose:
     return all_close(pose_to_list(goal), pose_to_list(actual), tolerance)
-
+  
   return True
 
 #code to convert roll pitch yaw into quaternion
@@ -27,9 +30,9 @@ def Quaternion(pose, roll, pitch, yaw):
 
     
     pose.orientation.w = cy * cp * cr + sy * sp * sr
-    pose.orientation.x = cy * cp * sr - sy * sp * cr
-    pose.orientation.y = sy * cp * sr + cy * sp * cr
-    pose.orientation.z = sy * cp * cr - cy * sp * sr
+    #pose.orientation.x = cy * cp * sr - sy * sp * cr
+    #pose.orientation.y = sy * cp * sr + cy * sp * cr
+    #pose.orientation.z = sy * cp * cr - cy * sp * sr
 
     return pose
 
@@ -41,59 +44,162 @@ class LeapMoveGroup(object):
     ## First initialize `moveit_commander`_ and a `rospy`_ node:
     moveit_commander.roscpp_initialize(sys.argv)
     rospy.init_node('LeapMoveGroup', anonymous=True)
-
-
-    robot = moveit_commander.RobotCommander()
-
     arm = moveit_commander.MoveGroupCommander("panda_arm")
-    #hand = moveit_commander.MoveGroupCommander("panda_hand")
-
-    # We can also print the name of the end-effector link for this arm:
-    eef_link = arm.get_end_effector_link()
-    print "============ End effector: %s" % eef_link
-
-    # We can get a list of all the groups in the robot:
-    group_names = robot.get_group_names()
-    print "============ Robot Groups:", robot.get_group_names()
-
-    # Sometimes for debugging it is useful to print the entire state of the
-    print "============ Printing robot state"
-    print robot.get_current_state()
-    print ""
 
     # Misc variables
-    self.robot = robot
+    self.subscriber = None
     self.arm = arm
-    self.eef_link = eef_link
-    self.group_names = group_names
+    self.space_modifier = 1
+    self.offset_x = 0
+    self.offset_y = 0
+    self.offset_z = 0
+    self.waiting = False
     
     #take in Modified_leap.msg
     self.leap = Modified_leap()
 
-    self.listener()
+    self.setupGui()
+
+
+    print("Staring subscriber")
+    subscriber = rospy.Subscriber("/leap_to_panda", Modified_leap, self.callback, queue_size=1)
+    
+    self.waiting = TRUE
+    print("Staring gui")
+    self.leap_window.mainloop()
+  
+  def setupGui(self):
+    #diagnostic gui
+    self.leap_window = Tkinter.Tk()
+    self.leap_window.title('Tracking Info')
+
+    #left hand
+    self.leap_lefthand_label_hand = Label(self.leap_window, text='Left Hand').grid(row=0, column=1)
+    self.gui_left_x = StringVar(self.leap_window, "0.00 ")
+    self.leap_lefthand_label_x = Label(self.leap_window, text='X:').grid(row=1, column=0) 
+    self.leap_lefthand_label_xv = Label(self.leap_window, textvariable=self.gui_left_x).grid(row=1, column=1)
+    self.gui_left_y = StringVar(self.leap_window, "0.00 ")
+    self.leap_lefthand_label_y = Label(self.leap_window, text='Y:').grid(row=2, column=0) 
+    self.leap_lefthand_label_yv = Label(self.leap_window, textvariable=self.gui_left_y).grid(row=2, column=1)
+    self.gui_left_z = StringVar(self.leap_window, "0.00 ")
+    self.leap_lefthand_label_z = Label(self.leap_window, text='Z:').grid(row=3, column=0) 
+    self.leap_lefthand_label_zv = Label(self.leap_window, textvariable=self.gui_left_z).grid(row=3, column=1) 
+    self.gui_left_roll = StringVar(self.leap_window, "0.00 ")
+    self.leap_lefthand_label_roll = Label(self.leap_window, text='Roll:').grid(row=4, column=0) 
+    self.leap_lefthand_label_rollv = Label(self.leap_window, textvariable=self.gui_left_roll).grid(row=4, column=1)
+    self.gui_left_pitch = StringVar(self.leap_window, "0.00 ")
+    self.leap_lefthand_label_pitch = Label(self.leap_window, text='Pitch:').grid(row=5, column=0) 
+    self.leap_lefthand_label_pitchv = Label(self.leap_window, textvariable=self.gui_left_pitch).grid(row=5, column=1)
+    self.gui_left_yaw = StringVar(self.leap_window, "0.00 ")
+    self.leap_lefthand_label_yaw = Label(self.leap_window, text='Yaw:').grid(row=6, column=0) 
+    self.leap_lefthand_label_yawv = Label(self.leap_window, textvariable=self.gui_left_yaw).grid(row=6, column=1) 
+    #self.leap_lefthand_label_ges(self.leap_window, text='Gesture').grid(row=0, column=7) 
+    #self.leap_lefthand_label_cert(self.leap_window, text='Certainty').grid(row=0, column=8)
+
+    #right hand gui
+    self.leap_righthand_label_hand = Label(self.leap_window, text='Right Hand').grid(row=0, column=2) 
+    self.gui_right_x = StringVar(self.leap_window, "0.00 ")
+    self.leap_righthand_label_xv = Label(self.leap_window, textvariable=self.gui_right_x).grid(row=1, column=2)
+    self.gui_right_y  = StringVar(self.leap_window, "0.00 ")
+    self.leap_righthand_label_yv = Label(self.leap_window, textvariable=self.gui_right_y).grid(row=2, column=2)
+    self.gui_right_z = StringVar(self.leap_window, "0.00 ") 
+    self.leap_righthand_label_zv = Label(self.leap_window, textvariable=self.gui_right_z).grid(row=3, column=2) 
+    self.gui_right_roll = StringVar(self.leap_window, "0.00 ")
+    self.leap_righthand_label_rollv = Label(self.leap_window, textvariable=self.gui_right_roll).grid(row=4, column=2) 
+    self.gui_right_pitch = StringVar(self.leap_window, "0.00 ")
+    self.leap_righthand_label_pitchv = Label(self.leap_window, textvariable=self.gui_right_pitch).grid(row=5, column=2) 
+    self.gui_right_yaw = StringVar(self.leap_window, "0.00 ")
+    self.leap_righthand_label_yawv = Label(self.leap_window, textvariable=self.gui_right_yaw).grid(row=6, column=2) 
+    #self.leap_righthand_label_ges(self.leap_window, text='Gesture').grid(row=1, column=7) 
+    #self.leap_righthand_label_cert(self.leap_window, text='Certainty').grid(row=1, column=8)
+
+    #panda gui
+    #self.panda_label_panda(self.leap_window, text='Panda').grid(row=2, column=0) 
+    #self.panda_label_other(self.leap_window, text='tba').grid(row=2, column=1) 
+
+    #offset
+    self.leap_offset_label = Label(self.leap_window, text='Offset').grid(row=7, column=0) 
+    self.leap_offset_x = StringVar(self.leap_window, "0.00 ")
+    self.leap_offset_label_x = Label(self.leap_window, text='X:').grid(row=8, column=0) 
+    self.leap_offset_label_xv = Label(self.leap_window, textvariable=self.leap_offset_x).grid(row=8, column=1) 
+    self.leap_offset_y = StringVar(self.leap_window, "0.00 ")
+    self.leap_offset_label_y = Label(self.leap_window, text='Y:').grid(row=9, column=0) 
+    self.leap_offset_label_yv = Label(self.leap_window, textvariable=self.leap_offset_y).grid(row=9, column=1) 
+    self.leap_offset_z = StringVar(self.leap_window, "0.00 ")
+    self.leap_offset_label_z = Label(self.leap_window, text='Z:').grid(row=10, column=0) 
+    self.leap_offset_label_zv = Label(self.leap_window, textvariable=self.leap_offset_z).grid(row=10, column=1) 
+    
+    #input scale
+    self.gui_scale = StringVar(self.leap_window, "0.00 ")
+    self.leap_label_scale = Label(self.leap_window, text='Scale:').grid(row=11, column=0) 
+    self.leap_label_scalev = Label(self.leap_window, textvariable=self.gui_scale).grid(row=11, column=1) 
+
+    self.reset_button = Button(self.leap_window, text = "Reset", command = self.reset_pos).grid(row=12,column=1)
+
+    self.gui_scale.set(self.space_modifier)
+
+  def updateGui(self):
+    self.gui_left_x.set(self.doubleToString(self.leap.left_location[0]))
+    self.gui_left_y.set(self.doubleToString(self.leap.left_location[1]))
+    self.gui_left_z.set(self.doubleToString(self.leap.left_location[2]))
+    self.gui_left_roll.set(self.doubleToString(self.leap.left_orientation[0]))
+    self.gui_left_pitch.set(self.doubleToString(self.leap.left_orientation[1]))
+    self.gui_left_yaw.set(self.doubleToString(self.leap.left_orientation[2]))
+    self.gui_right_x.set(self.doubleToString(self.leap.right_location[0]))
+    self.gui_right_y.set(self.doubleToString(self.leap.right_location[1]))
+    self.gui_right_z.set(self.doubleToString(self.leap.right_location[2]))
+    self.gui_right_roll.set(self.doubleToString(self.leap.right_orientation[0]))
+    self.gui_right_pitch.set(self.doubleToString(self.leap.right_orientation[1]))
+    self.gui_right_yaw.set(self.doubleToString(self.leap.right_orientation[2]))
+
+    self.leap_offset_x .set(self.offset_x)
+    self.leap_offset_y.set(self.offset_y) 
+    self.leap_offset_z.set(self.offset_z)
+
+  def doubleToString(self, input):
+    return round(input, 2)
 
   def callback(self, data):
-    #rospy.loginfo(rospy.get_caller_id() + "I heard %s", data)
     self.leap = data
+    self.updateGui()
 
-  def listener(self):
-    rospy.Subscriber("leap_to_panda", Modified_leap, self.callback)
-    rospy.spin()
+    if self.waiting:
+      self.waiting = False
+      
+      self.go_to_pose_goal()   
+      
+      self.waiting = True
 
-  def go_to_pose_goal(self):
+  def reset_pos(self):
+    print("Resetting")
+    current_joints = self.arm.get_current_joint_values()
+    joint_goal = self.arm.get_current_joint_values()
+    joint_goal[0] = 0
+    joint_goal[1] = -math.pi/4
+    joint_goal[2] = 0
+    joint_goal[3] = -math.pi/2
+    joint_goal[4] = 0
+    joint_goal[5] = math.pi/3
+    joint_goal[6] = 0
+
+    arm_plan = self.arm.go(wait=True)
+    self.arm.stop() 
+    return all_close(joint_goal, current_joints, 0.001)
+
+  def go_to_pose_goal(self):    
     ## Planning to a Pose Goal
-    ## We can plan a motion for this arm to a desired pose for the
-    ## end-effectors:
-    
+    ## We can plan a motion for this arm to a desired pose for the    
     arm_pose_goal = geometry_msgs.msg.Pose()
-    arm_pose_goal = Quaternion(arm_pose_goal,self.leap.right_orientation[0],self.leap.right_orientation[1],self.leap.right_orientation[2])
-    arm_pose_goal.position.x = self.leap.right_location[0]
-    arm_pose_goal.position.y = self.leap.right_location[1]
-    arm_pose_goal.position.z = self.leap.right_location[2]
+    #arm_pose_goal = Quaternion(arm_pose_goal,self.leap.right_orientation[0],self.leap.right_orientation[1],self.leap.right_orientation[2])
+    arm_pose_goal.position.x = ((self.leap.right_location[0])+self.offset_x)*self.space_modifier
+    arm_pose_goal.position.z = ((self.leap.right_location[1])+self.offset_y)*self.space_modifier
+    arm_pose_goal.position.y = ((-1*self.leap.right_location[2])+self.offset_z)*self.space_modifier
 
-
-    print "moving to:"
-    print arm_pose_goal
+    print ("")
+    print ("Moving to:")
+    print (arm_pose_goal.position.x + arm_pose_goal.position.y + arm_pose_goal.position.z)
+    print (arm_pose_goal.orientation.w + arm_pose_goal.orientation.x + arm_pose_goal.orientation.y + arm_pose_goal.orientation.z)
+    print ("")
 
     self.arm.set_pose_target(arm_pose_goal)
 
@@ -109,18 +215,14 @@ class LeapMoveGroup(object):
 
     current_arm_pose = self.arm.get_current_pose().pose
 
-    return all_close(arm_pose_goal, current_arm_pose, 0.01)
+    return all_close(arm_pose_goal, current_arm_pose, 0.001)
 
 def main():
   try:
     test = LeapMoveGroup()
-
-    print "============ Press `Enter` to execute a movement using a pose goal ..."
+    print ("Script complete, press any key to close")
     raw_input()
-    test.go_to_pose_goal()
 
-    print "============ Python demo complete! Press `Enter` to complete"
-    raw_input()
   except rospy.ROSInterruptException:
     return
   except KeyboardInterrupt:
