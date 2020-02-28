@@ -1,7 +1,9 @@
 <launch>
+
   <!-- launch LeaptoPanda node -->
   <node name="leap_to_panda" pkg="leap_panda_telemanipulation" type="LeaptoPanda" respawn="true" output="screen"/>
 
   <!-- launch Move Group node -->
-  <!-- <node name="Leap_Move_Group" pkg="leap_panda_telemanipulation" type="LeapMoveGroup.py" respawn="false" output="screen"/> -->
+  <node name="Leap_Move_Group" pkg="leap_panda_telemanipulation" type="LeapMoveGroup.py" respawn="false" output="screen"/>
+
 </launch>
