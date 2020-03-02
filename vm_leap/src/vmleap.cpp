@@ -45,7 +45,7 @@ public:
     publisher = node.advertise<vm_leap::Modified_leap>("vm_leap", 1);
 
     //Topic you want to subscribe
-    subscriber = node.subscribe("/leap_motion/leap_filtered", 1, &VMLeap::Leap_filteredCallback, this);
+    subscriber = node.subscribe("/leap2/leap_motion/leap_filtered", 1, &VMLeap::Leap_filteredCallback, this);
   }
 
 };//End of class VMLeap

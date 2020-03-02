@@ -19,6 +19,7 @@ private:
   leap_motion::Hand handLeft2;
   leap_motion::Hand handRight2;
   bool DualLeaps;
+  bool HostLeapLeft;
   int CalibrationDistance;
 
   double comparison(double x1, double x2, double c1, double c2)
@@ -59,10 +60,26 @@ private:
     leap_panda_telemanipulation::Modified_leap output;
 
     //get the palm point objects
-    geometry_msgs::Point leftPalm1 = handLeft1.palm_center;
-    geometry_msgs::Point rightPalm1 = handRight1.palm_center;
-    geometry_msgs::Point leftPalm2 = handLeft2.palm_center;
-    geometry_msgs::Point rightPalm2 = handRight2.palm_center;
+    geometry_msgs::Point leftPalm1;
+    geometry_msgs::Point rightPalm1;
+    geometry_msgs::Point leftPalm2;
+    geometry_msgs::Point rightPalm2;
+
+    //set variabled depending on left or right position
+    if(HostLeapLeft)
+    {
+      geometry_msgs::Point leftPalm1 = handLeft1.palm_center;
+      geometry_msgs::Point rightPalm1 = handRight1.palm_center;
+      geometry_msgs::Point leftPalm2 = handLeft2.palm_center;
+      geometry_msgs::Point rightPalm2 = handRight2.palm_center;
+    }
+    else
+    {
+      geometry_msgs::Point leftPalm2 = handLeft1.palm_center;
+      geometry_msgs::Point rightPalm2 = handRight1.palm_center;
+      geometry_msgs::Point leftPalm1 = handLeft2.palm_center;
+      geometry_msgs::Point rightPalm1 = handRight2.palm_center;
+    }
     
     //Get center of mass of both hands
     output.left_location = {comparison(leftPalm1.x, leftPalm2.x, handLeft1.confidence, handLeft2.confidence, CalibrationDistance), comparison(leftPalm1.y, leftPalm2.y, handLeft1.confidence, handLeft2.confidence), comparison(leftPalm1.z, leftPalm2.z, handLeft1.confidence, handLeft2.confidence)};
@@ -118,6 +135,7 @@ public:
   {    
     //are you using two leap motions?
     DualLeaps = false;
+    HostLeapLeft = false;
     //if so how far apart are they in milimeters centre to centre?
     CalibrationDistance = 388;
 
