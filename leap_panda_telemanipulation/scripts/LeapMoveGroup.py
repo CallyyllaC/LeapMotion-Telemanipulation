@@ -235,6 +235,7 @@ class LeapMoveGroup(object):
     self.offset_x = 0
     self.offset_y = 0
     self.offset_z = 0
+    self.waiting = True
 
   def move_workspace(self):
     if(self.leap.grab > 0.9):
