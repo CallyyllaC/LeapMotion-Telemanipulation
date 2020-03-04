@@ -54,6 +54,7 @@ class LeapMoveGroup(object):
     self.offset_z = 0
     self.waiting = False
     self.default_pose = None
+    self.calibration = 0.32
     
     #take in Modified_leap.msg
     self.leap = Modified_leap()
@@ -207,10 +208,10 @@ class LeapMoveGroup(object):
     if self.waiting:
       self.waiting = False
       
-      if((self.leap.left_location[0]+self.leap.left_location[1]+self.leap.left_location[2])!=0):
+      if(abs(self.leap.left_location[0])!=abs(self.calibration/2) or self.leap.left_location[1] !=0 or self.leap.left_location[2] != 0):
         self.move_workspace()
 
-      elif((self.leap.right_location[0]+self.leap.right_location[1]+self.leap.right_location[2])!=0):
+      if(abs(self.leap.right_location[0])!=abs(self.calibration/2) or self.leap.right_location[1] != 0 or self.leap.right_location[2]!= 0):
         self.go_to_pinch_goal()
         self.go_to_pose_goal()
       

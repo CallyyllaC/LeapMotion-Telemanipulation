@@ -19,16 +19,15 @@ private:
   leap_motion::Hand handLeft2;
   leap_motion::Hand handRight2;
   bool DualLeaps;
-  bool HostLeapLeft;
-  int CalibrationDistance;
+  double CalibrationDistance;
 
   double comparison(double x1, double x2, double c1, double c2)
   {
-    if (x1 == 0)
+    if (x1 == (double)0)
     {
       return x2;
     }
-    else if (x2 == 0 || c1 > c2)
+    else if (x2 == (double)0 || c1 > c2)
     {
       return x1;
     }
@@ -38,13 +37,13 @@ private:
     }    
   }
 
-  double comparison(double x1, double x2, double c1, double c2, int d)
+  double comparison(double x1, double x2, double c1, double c2, double d)
   {
-    if (x1 == 0)
+    if (x1 == (double)0)
     {
       return x2 - (d/2);
     }
-    else if (x2 == 0 || c1 > c2)
+    else if (x2 == (double)0 || c1 > c2)
     {
       return x1 + (d/2);
     }
@@ -60,26 +59,10 @@ private:
     leap_panda_telemanipulation::Modified_leap output;
 
     //get the palm point objects
-    geometry_msgs::Point leftPalm1;
-    geometry_msgs::Point rightPalm1;
-    geometry_msgs::Point leftPalm2;
-    geometry_msgs::Point rightPalm2;
-
-    //set variabled depending on left or right position
-    if(HostLeapLeft)
-    {
-      geometry_msgs::Point leftPalm1 = handLeft1.palm_center;
-      geometry_msgs::Point rightPalm1 = handRight1.palm_center;
-      geometry_msgs::Point leftPalm2 = handLeft2.palm_center;
-      geometry_msgs::Point rightPalm2 = handRight2.palm_center;
-    }
-    else
-    {
-      geometry_msgs::Point leftPalm2 = handLeft1.palm_center;
-      geometry_msgs::Point rightPalm2 = handRight1.palm_center;
-      geometry_msgs::Point leftPalm1 = handLeft2.palm_center;
-      geometry_msgs::Point rightPalm1 = handRight2.palm_center;
-    }
+    geometry_msgs::Point leftPalm1 = handLeft1.palm_center;
+    geometry_msgs::Point rightPalm1 = handRight1.palm_center;
+    geometry_msgs::Point leftPalm2 = handLeft2.palm_center;
+    geometry_msgs::Point rightPalm2 = handRight2.palm_center;
     
     //Get center of mass of both hands
     output.left_location = {comparison(leftPalm1.x, leftPalm2.x, handLeft1.confidence, handLeft2.confidence, CalibrationDistance), comparison(leftPalm1.y, leftPalm2.y, handLeft1.confidence, handLeft2.confidence), comparison(leftPalm1.z, leftPalm2.z, handLeft1.confidence, handLeft2.confidence)};
@@ -126,6 +109,7 @@ private:
 
   void Leap_filteredCallback2(const leap_motion::Human::ConstPtr& msg)
   {
+
     handLeft2 = msg->left_hand;
     handRight2 = msg->right_hand;
   }
@@ -134,10 +118,9 @@ public:
   LeapToPanda()
   {    
     //are you using two leap motions?
-    DualLeaps = false;
-    HostLeapLeft = false;
-    //if so how far apart are they in milimeters centre to centre?
-    CalibrationDistance = 388;
+    DualLeaps = true;
+    //if so how far apart are they in meters centre to centre?
+    CalibrationDistance = 0.32;
 
     //Topic you want to publish
     publisher = node.advertise<leap_panda_telemanipulation::Modified_leap>("leap_to_panda", 1);
@@ -147,7 +130,7 @@ public:
     
     if (DualLeaps)
     {
-      subscriber2 = node.subscribe("/vm_leap", 1, &LeapToPanda::Leap_filteredCallback2, this);
+      subscriber2 = node.subscribe("/leap2/leap_motion/leap_filtered", 1, &LeapToPanda::Leap_filteredCallback2, this);
       timer2 = node.createTimer(ros::Duration(0.1), &LeapToPanda::dual_leap_publish, this);
     }
     else
