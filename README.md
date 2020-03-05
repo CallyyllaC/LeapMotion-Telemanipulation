@@ -57,8 +57,8 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 </ol>
 
 ### Configuring the leap panda telemanipulation package
-<ul><li>To specify the usage of either one or two Leap Motion devices, goto `LeaptoPanda.cpp` and set the bool `DualLeaps` to true</li>
-<li>In order to change the distance between multiple leap devices, goto `LeaptoPanda.cpp` and set the double `CalibrationDistance` to the distance between the center of the two leap devices in meters. You also need to set self.CalibrationDistance` in LeapMoveGroup.py to the same value</li>
+<ul><li>To specify the usage of either one or two Leap Motion devices, goto `LeaptoPanda.cpp` and set the bool `DualLeaps` to true if not ensure that it is set to false</li>
+<li>In order to change the distance between multiple leap devices, goto `LeaptoPanda.cpp` and set the double `CalibrationDistance` to the distance between the center of the two leap devices in meters. You also need to set self.Calibration` in LeapMoveGroup.py to the same value, if you are only using a single leap device, please ensure that `self.Calibration` is set to 0</li>
 </ul>
 *\*I believe versions after ubuntu 14, maybe, I know for a fact 16lts and 18lts require this*
 
