@@ -58,7 +58,14 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 
 ### Configuring the leap panda telemanipulation package
 <ul><li>To specify the usage of either one or two Leap Motion devices, goto `LeaptoPanda.cpp` and set the bool `DualLeaps` to true if not ensure that it is set to false</li>
-<li>In order to change the distance between multiple leap devices, goto `LeaptoPanda.cpp` and set the double `CalibrationDistance` to the distance between the center of the two leap devices in meters. You also need to set self.Calibration` in LeapMoveGroup.py to the same value, if you are only using a single leap device, please ensure that `self.Calibration` is set to 0</li>
+<li>In order to change the distance between multiple leap devices, goto `LeaptoPanda.cpp` and set the double `CalibrationDistance` to the distance between the center of the two leap devices in meters. You also need to set self.Calibration` in LeapMoveGroup.py to the same value, if you are only using a single leap device, please ensure that `self.Calibration` is set to 0</li></ul>
+  
+### Key Points
+<ul><li>When using two Leap Motion devices, the host Leap device should be on the left hand side by default</li>
+<li>The final position is calculated (offset + Leap position) * scale</li>
+<li>Offset variables are based off of the raw Leap Motion positions and will not be affected by scale</li>
+<li>When using two Leap Motion devices, if a hand is visible on both devices the one with the highest gesture confidence is taken, if these are the same then the left device is always prefered</li>
+<li>When using two Leap Motion devices, if no hands are detected, the ui will show -calibration/2 for the x positions, this will not affect the data in any way, this is just what is returned when no hand is detected</li>
 </ul>
 *\*I believe versions after ubuntu 14, maybe, I know for a fact 16lts and 18lts require this*
 
