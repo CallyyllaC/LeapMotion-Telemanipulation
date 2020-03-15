@@ -1,5 +1,12 @@
+<!--References-->
+<!-- GitHub. (2013). ros-drivers/leap_motion. [online] Available at: https://github.com/ros-drivers/leap_motion/tree/hydro/ [Accessed 25 Jan. 2020]. -->
+
 <launch>
+    <!-- set the namespace of the following nodes so that it does not conflict with the other leap device on the ros network-->
     <group ns="leap2">
+
+    <!-- copy of launch demo from leap_motion package moved inside namespace -->
+    
     <!-- Load the listener parameters and start the driver node -->
     <rosparam file="$(find leap_motion)/config/listener_params.yaml" command="load" />
     <node pkg="leap_motion" type="leap_motion_driver_node" name="leap_driver" output="screen" />
@@ -20,5 +27,6 @@
         <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image" output="screen"/>
         <node pkg="tf" type="static_transform_publisher" name="link2_broadcaster" args="0 0 0 0 0 1 0 world leap_pointcloud 100" />
     </group>
+    <!--Removed the rviz launch as it is not required and will be replaced by a visualisation on the host machine-->
     </group>
 </launch>

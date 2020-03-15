@@ -1,3 +1,9 @@
+#
+# Depricated, no longer required due to using ros network to connect multiple PC's for dual leaps
+#
+
+#message that holds the key values required by the movegroup
+
 #left hand
 float64[3] left_location
 float64[3] left_orientation

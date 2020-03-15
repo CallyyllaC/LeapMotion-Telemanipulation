@@ -1,3 +1,7 @@
+//
+// Depricated, no longer required due to using ros network to connect multiple PC's for dual leaps
+//
+
 #include "ros/ros.h"
 #include "leap_motion/Human.h"
 #include "leap_motion/Hand.h"

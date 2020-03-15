@@ -1,7 +1,9 @@
 <launch>
   <!-- launch LeaptoPanda node -->
+  <!-- this node takes the leap motion data and manipulates it depending if it is in single or dual leap mode and publishes a single message /leap_to_panda of type Modified_leap -->
   <node name="leap_to_panda" pkg="leap_panda_telemanipulation" type="LeaptoPanda" respawn="true" output="screen"/>
 
   <!-- launch Move Group node -->
+  <!-- this node takes the leap data and converts it into outputs for the panda arm using the move group interface -->
   <node name="Leap_Move_Group" pkg="leap_panda_telemanipulation" type="LeapMoveGroup.py" respawn="false" output="screen"/>
 </launch>
