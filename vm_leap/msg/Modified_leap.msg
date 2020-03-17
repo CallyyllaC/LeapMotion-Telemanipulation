@@ -17,3 +17,6 @@ float32 grab
 
 #is the right hand pinching
 float32 pinch
+
+#gets the calibration distance of the leap devices
+float32 calibration

@@ -240,9 +240,13 @@ class LeapMoveGroup(object):
     #update the gui based on this new data
     self.updateGui()
 
-    #if we dont have the default pose, get it
+    #if we dont have the default pose, get it, this is also treated as a first run handler and captures the calibration distance
     if(self.default_pose == None):
       self.default_pose = self.arm.get_current_pose("panda_link8")
+      self.calibration = self.leap.calibration
+      #if calibration isnt 0, half it
+      if self.calibration != 0:
+        self.calibration = self.calibration/2
 
     #if we are waiting to send a command to the panda arm
     if self.waiting:
@@ -250,11 +254,11 @@ class LeapMoveGroup(object):
       self.waiting = False
       
       #if the left hand is detected check to see if we are moving the workspace
-      if(abs(self.leap.left_location[0])!=abs(self.calibration/2) or self.leap.left_location[1] !=0 or self.leap.left_location[2] != 0):
+      if(abs(self.leap.left_location[0])!=abs(self.calibration) or self.leap.left_location[1] !=0 or self.leap.left_location[2] != 0):
         self.move_workspace()
 
       #if the right hand is detected control the arm
-      if(abs(self.leap.right_location[0])!=abs(self.calibration/2) or self.leap.right_location[1] != 0 or self.leap.right_location[2]!= 0):
+      if(abs(self.leap.right_location[0])!=abs(self.calibration) or self.leap.right_location[1] != 0 or self.leap.right_location[2]!= 0):
         self.go_to_pinch_goal()
         self.go_to_pose_goal()
       

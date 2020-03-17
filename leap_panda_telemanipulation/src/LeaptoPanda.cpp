@@ -91,6 +91,9 @@ private:
     output.grab = comparison(handLeft1.grab_strength, handLeft2.grab_strength, handLeft1.confidence, handLeft2.confidence);
     output.pinch = comparison(handRight1.pinch_strength, handRight2.pinch_strength, handLeft1.confidence, handLeft2.confidence);
 
+    //sets the calibration distance
+    output.calibration = CalibrationDistance;
+
     //Publish the new Modified_Leap message
     publisher.publish(output);
   }
@@ -116,6 +119,9 @@ private:
     //Get the grab and pinch strengths
     output.grab = handLeft1.grab_strength;
     output.pinch = handRight1.pinch_strength;
+
+    //sets the calibration distance
+    output.calibration = 0;
 
     //Publish the new Modified_Leap message
     publisher.publish(output);
