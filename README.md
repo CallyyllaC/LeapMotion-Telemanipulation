@@ -67,6 +67,12 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 <li>When using two Leap Motion devices, if a hand is visible on both devices the one with the highest gesture confidence is taken, if these are the same then the left device is always prefered</li>
 <li>When using two Leap Motion devices, if no hands are detected, the ui will show -calibration/2 for the x positions, this will not affect the data in any way, this is just what is returned when no hand is detected</li>
 </ul>
+
+### Example Code
+<ul><li>Provided is example code that was uses the alternate method of working out where then hand is when seen by multiple devices, this uses averaging rather than confidence score</li>
+<li>Provided is example code that was demonstrates the scalability of the project by giving a theoretical example of how 4 leap motions in a square would work, and what code would needed to be changed in order to make that happen</li>
+</ul>
+
 *\*I believe versions after ubuntu 14, maybe, I know for a fact 16lts and 18lts require this*
 
 *\*\*essentially the first leap motion must be pluged in to a usb socket that the host will ignore, basically we want the 2nd leap to be plugged into a socket that the host machine leap service will discover first so that it will connect to that one and not the one we are using for the VM. This will be an issue until vmware usb virtualisation is imporved* 
