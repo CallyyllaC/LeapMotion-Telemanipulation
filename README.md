@@ -60,6 +60,11 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 <ul><li>To specify the usage of either one or two Leap Motion devices, goto `LeaptoPanda.cpp` and set the bool `DualLeaps` to true if not ensure that it is set to false</li>
 <li>In order to change the distance between multiple leap devices, goto `LeaptoPanda.cpp` and set the double `CalibrationDistance` to the distance between the center of the two leap devices in meters. You also need to set self.Calibration` in LeapMoveGroup.py to the same value, if you are only using a single leap device, please ensure that `self.Calibration` is set to 0</li></ul>
   
+### How To Use
+<ul><li>The panda arm by default will follow the users right hand, as long as it is in reach</li>
+<li>The panda arms gripper will open and close based off of the users right hand pinching (thumb and index finger)</li>
+<li>The left hand is used to move the workspace around but only whist recognising a closed fist gesture</li></ul>
+  
 ### Key Points
 <ul><li>When using two Leap Motion devices, the host Leap device should be on the left hand side by default</li>
 <li>The final position is calculated (offset + Leap position) * scale</li>
