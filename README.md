@@ -70,7 +70,7 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 
 ### Example Code
 <ul><li>Provided is example code that was uses the alternate method of working out where then hand is when seen by multiple devices, this uses averaging rather than confidence score</li>
-<li>Provided is example code that was demonstrates the scalability of the project by giving a theoretical example of how 4 leap motions in a square would work, and what code would needed to be changed in order to make that happen</li>
+<li>Provided is example code that demonstrates the scalability of the project by giving a theoretical example of how 4 leap motions in a square would work, and what code would needed to be changed in order to make that happen</li>
 </ul>
 
 *\*I believe versions after ubuntu 14, maybe, I know for a fact 16lts and 18lts require this*
