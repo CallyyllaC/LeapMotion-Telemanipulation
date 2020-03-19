@@ -1,0 +1,21 @@
+<launch>
+
+  <!-- Open a preconfigured RViz window -->
+  <!-- open up the client leap device in rviz so that both leap devices are visible from the host pc -->
+  <node name="rviz2" pkg="rviz" type="rviz" args="-d $(find leap_panda_telemanipulation)/config/RvizLeap2.rviz" />
+
+  <!-- open up the client leap device in rviz so that both leap devices are visible from the host pc -->
+  <node name="rviz3" pkg="rviz" type="rviz" args="-d $(find leap_panda_telemanipulation)/config/RvizLeap3.rviz" />
+
+  <!-- open up the client leap device in rviz so that both leap devices are visible from the host pc -->
+  <node name="rviz4" pkg="rviz" type="rviz" args="-d $(find leap_panda_telemanipulation)/config/RvizLeap4.rviz" />
+
+  <!-- launch LeaptoPanda node -->
+  <!-- this node takes the leap motion data and manipulates it depending if it is in single or dual leap mode and publishes a single message /leap_to_panda of type Modified_leap -->
+  <node name="leap_to_panda" pkg="leap_panda_telemanipulation" type="LeaptoPanda" respawn="true" output="screen"/>
+
+  <!-- launch Move Group node -->
+  <!-- this node takes the leap data and converts it into outputs for the panda arm using the move group interface -->
+  <node name="Leap_Move_Group" pkg="leap_panda_telemanipulation" type="LeapMoveGroup.py" respawn="false" output="screen"/>
+
+</launch>
