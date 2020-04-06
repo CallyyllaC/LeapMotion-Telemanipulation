@@ -1,5 +1,10 @@
 # LeapMotion-Telemanipulation
 
+## About<br>
+This project is used to control a PANDA arm using a Leap motion controller. This package includes the files for either one or two Leap Motion devices to be used, as well as example code for both changing how multiple devices work, as well as how to expand to any amount of Leap Motion devices, these are found in the Example directory. The instructions of how to set up the devices for both 1 or 2 Leap Motions is described below, as well as in different situations (physical or virtual machines).
+<br>
+This repo also contains a launch scripts directory the launch scripts that I used to run all the bash commands were included, these will need to be modified to the catkin workspace that you use (mine was called "ws"), I used these for conveniance and they are labeled based on what they do.
+<br>
 ## Info<br>
 This was done using ubuntu 18.04lts however should be recreatable on other linux versions with little or no modification.<br>
 This repo contains two packages, if using a single Leap Motion, you do not require the VM package<br>
@@ -16,12 +21,13 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
   <li>Install 3dtransform for python 'pip install transforms3d'</li>
 <li>Copy over leap_panda_telemanipulation into your catkin workspace src folder</li>
 </ol>
-
 ### Launching with one Leap Motion:
 <ol><li>Plug in the first Leap Motion</li>
 <li>Launch the leapd service, ros leap motion, and the leap_to_panda packages on the host machine</li>
-<li>launch the LeapMoveGroup script</li>
 </ol>
+<br>
+<img src="https://i.imgur.com/ocGtBR9.png" width="350" title="Single leap motion example">
+<br>
 
 ### Installing with two Leap Motions:
 <ol><li>Install ROS</li>
@@ -35,7 +41,7 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 <li>Copy over leap_panda_telemanipulation and vm_leap into your catkin workspace src folder</li>
 <li>If you are using a virtual machine download your prefered virtual machine software and set up an os, I used vmware player running ubuntu 18lts</li>
 <li>Complete steps 1 to 4 again on either your new virtual machine, or your secondary computer</li>
-<li>Copy over vm_leap into your second machines catkin workspace src folder</li>
+<li>Copy over vm_leap into your second/virtual machines catkin workspace src folder</li>
 <li>Set up the ros network on both machines so that the host pc is the master</li>
 </ol>
 
@@ -46,7 +52,6 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 <li>Launch the leapd service, ros leap motion, and the vm_leap packages on the virtual machine</li>
 <li>Plug in second Leap Motion</li>
 <li>Launch the leapd service, ros leap motion, and the leap_to_panda packages on the host machine</li>
-<li>launch the LeapMoveGroup script</li>
 </ol>
 
 ### Launching with two Leap Motions on a seperate machine:
@@ -55,6 +60,11 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 <li>Launch the leapd service, ros leap motion, and the vm leap packages on the second machine</li>
 <li>Launch the leapd service, ros leap motion, moveit, and the the leap panda telemanipulation packages on the host machine</li>
 </ol>
+<br>
+<img src="https://i.imgur.com/DHMNygB.jpg" width="350" title="VM Packages running on client machine">
+<br>
+<img src="https://i.imgur.com/UfBRGTK.jpg" width="350" title="Dual leap motion example">
+<br>
 
 ### Configuring the leap panda telemanipulation package
 <ul><li>To specify the usage of either one or two Leap Motion devices, goto `LeaptoPanda.cpp` and set the bool `DualLeaps` to true if not ensure that it is set to false</li>
