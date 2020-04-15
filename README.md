@@ -1,11 +1,11 @@
 # LeapMotion-Telemanipulation
 
-## About<br>
+## About
 This project is used to control a PANDA arm using a Leap motion controller. This package includes the files for either one or two Leap Motion devices to be used, as well as example code for both changing how multiple devices work, as well as how to expand to any amount of Leap Motion devices, these are found in the Example directory. The instructions of how to set up the devices for both 1 or 2 Leap Motions is described below, as well as in different situations (physical or virtual machines).
 <br>
 This repo also contains a launch scripts directory the launch scripts that I used to run all the bash commands were included, these will need to be modified to the catkin workspace that you use (mine was called "ws"), I used these for conveniance and they are labeled based on what they do.
 <br>
-## Info<br>
+## Info
 This was done using ubuntu 18.04lts however should be recreatable on other linux versions with little or no modification.<br>
 This repo contains two packages, if using a single Leap Motion, you do not require the VM package<br>
 Using multiple Leap Motions through a virtual machine is optional, also a seperate computer may be used instead<br>
@@ -91,3 +91,17 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
 *\*I believe versions after ubuntu 14, maybe, I know for a fact 16lts and 18lts require this*
 
 *\*\*essentially the first leap motion must be pluged in to a usb socket that the host will ignore, basically we want the 2nd leap to be plugged into a socket that the host machine leap service will discover first so that it will connect to that one and not the one we are using for the VM. This will be an issue until vmware usb virtualisation is imporved* 
+
+
+## Videos
+Dual Leap setup and configuration:<br>
+[![https://youtu.be/yP3rVjdELFA](http://img.youtube.com/vi/yP3rVjdELFA/0.jpg)](https://youtu.be/yP3rVjdELFA "Dual Leap setup and configuration")
+<br>
+Launch script overview:<br>
+[![https://youtu.be/c7NsOLbvZeY](http://img.youtube.com/vi/c7NsOLbvZeY/0.jpg)](https://youtu.be/c7NsOLbvZeY "Launch script overview")
+<br>
+Full artefact run through:<br>
+[![https://youtu.be/CHANGEME](http://img.youtube.com/vi/CHANGEME/0.jpg)](https://youtu.be/CHANGEME "Full artefact run through")
+<br>
+Example Code:<br>
+[![https://youtu.be/4BFjMBP80FA](http://img.youtube.com/vi/4BFjMBP80FA/0.jpg)](https://youtu.be/4BFjMBP80FA "Example Code")
