@@ -21,6 +21,7 @@ Using multiple Leap Motions through a virtual machine is optional, also a sepera
   <li>Install 3dtransform for python 'pip install transforms3d'</li>
 <li>Copy over leap_panda_telemanipulation into your catkin workspace src folder</li>
 </ol>
+
 ### Launching with one Leap Motion:
 <ol><li>Plug in the first Leap Motion</li>
 <li>Launch the leapd service, ros leap motion, and the leap_to_panda packages on the host machine</li>
@@ -101,7 +102,7 @@ Launch script overview:<br>
 [![https://youtu.be/c7NsOLbvZeY](http://img.youtube.com/vi/c7NsOLbvZeY/0.jpg)](https://youtu.be/c7NsOLbvZeY "Launch script overview")
 <br>
 Full artefact run through:<br>
-[![https://youtu.be/CHANGEME](http://img.youtube.com/vi/CHANGEME/0.jpg)](https://youtu.be/CHANGEME "Full artefact run through")
+[![https://youtu.be/YbAap89Y3Ck](http://img.youtube.com/vi/YbAap89Y3Ck/0.jpg)](https://youtu.be/YbAap89Y3Ck "Full artefact run through")
 <br>
 Example Code:<br>
 [![https://youtu.be/4BFjMBP80FA](http://img.youtube.com/vi/4BFjMBP80FA/0.jpg)](https://youtu.be/4BFjMBP80FA "Example Code")
